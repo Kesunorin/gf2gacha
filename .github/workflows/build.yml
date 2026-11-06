@@ -2,7 +2,7 @@ name: release by tag
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 permissions:
   contents: write
 jobs:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: Install Wails
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
@@ -46,25 +46,12 @@ jobs:
       - name: Zip the folder
         run: powershell Compress-Archive -Path gf2gacha -DestinationPath gf2gacha.zip
 
-      - name: Upload to R2
-        uses: ryand56/r2-upload-action@latest
-        with:
-          r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
-          r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-          r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          r2-bucket: ${{ secrets.R2_BUCKET }}
-          source-dir: |
-            build/bin/gf2gacha.exe
-            gf2gacha.zip
-          destination-dir: gf2gacha/${{ github.ref_name }}/
-
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
           files: |
             gf2gacha.zip
             gf2gacha.exe
-      
 
       - name: Build Changelog
         run: npx changelogithub
