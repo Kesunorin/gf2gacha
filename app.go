@@ -40,11 +40,27 @@ func (a *App) startup(ctx context.Context) {
 
 func (a *App) GetLogInfo() model.LogInfo {
 	info, err := util.GetLogInfo()
+	if err == nil {
+		return info
+	}
+
+	// 日志里没有登录信息时，展示最近一次从本地凭证读到的内容
+	if cached, ok := logic.GetCachedLoginInfo(); ok {
+		return cached
+	}
+
+	logger.Logger.Error(err)
+	return model.LogInfo{}
+}
+
+// ReadLocalLoginInfo 读取 PC 客户端本地保存的登录凭证（无需抓包/证书/短信）。
+func (a *App) ReadLocalLoginInfo() (model.LogInfo, error) {
+	info, err := logic.ReadLocalLoginInfo()
 	if err != nil {
 		logger.Logger.Error(err)
-		return model.LogInfo{}
+		return model.LogInfo{}, err
 	}
-	return info
+	return info, nil
 }
 
 func (a *App) GetUserList() []string {

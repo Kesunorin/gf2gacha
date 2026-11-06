@@ -1,0 +1,12 @@
+# 构建产物
+build/bin/
+build/windows/
+frontend/dist/
+frontend/node_modules/
+frontend/package-lock.json
+
+# 运行时数据 / 本机配置
+gf2gacha.db
+gf2gacha_backup*.db
+gf2gacha.log
+config.yaml

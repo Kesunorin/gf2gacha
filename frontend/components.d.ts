@@ -22,10 +22,11 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    LocalLoginDialog: typeof import('./src/components/LocalLoginDialog.vue')['default']
     PoolCard: typeof import('./src/components/PoolCard.vue')['default']
     SettingDialog: typeof import('./src/components/SettingDialog.vue')['default']
   }
-  export interface ComponentCustomProperties {
+  export interface GlobalDirectives {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

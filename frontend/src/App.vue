@@ -10,6 +10,7 @@ import {ClipboardSetText} from "../wailsjs/runtime";
 import SettingDialog from "./components/SettingDialog.vue";
 import {useLayoutStore} from "./stores/layout.ts";
 import CaptureDialog from "./components/CaptureDialog.vue";
+import LocalLoginDialog from "./components/LocalLoginDialog.vue";
 import Pool = model.Pool;
 import LogInfo = model.LogInfo;
 
@@ -25,6 +26,7 @@ const loading = ref(false);
 const dialogInfoVisible = ref(false)
 const dialogSettingVisible = ref(false)
 const captureSettingVisible = ref(false)
+const localLoginVisible = ref(false)
 
 const getUidList = async () => {
   await GetUserList().then(result => {
@@ -74,6 +76,18 @@ const openInfoDialog = async () => {
     logInfo.value = result
   })
   dialogInfoVisible.value = true
+}
+
+const onLocalLoginSuccess = async (info: LogInfo) => {
+  logInfo.value = info
+  if (info.uid && !uidList.value.includes(info.uid)) {
+    uidList.value.push(info.uid)
+  }
+  if (info.uid) {
+    currentUid.value = info.uid
+  }
+  ElMessage({message: '已读取本地登录信息', type: 'success', plain: true, showClose: true, duration: 2000})
+  await getAllPoolInfo()
 }
 
 const mergeEreRecord = async (typ: string) => {
@@ -220,7 +234,8 @@ onMounted(async () => {
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        <el-button type="warning" class="font-bold ml-3" @click="captureSettingVisible=true">捕获信息</el-button>
+        <el-button type="warning" class="font-bold ml-3" @click="localLoginVisible=true">读取本地凭证</el-button>
+        <el-button type="info" class="font-bold ml-3" plain @click="captureSettingVisible=true">捕获信息</el-button>
       </div>
       <div class="flex items-center gap-2">
         <el-button type="primary" class="font-bold" @click="handleCommunityTasks">一键社区</el-button>
@@ -263,6 +278,7 @@ onMounted(async () => {
       </div>
     </el-dialog>
     <SettingDialog v-model="dialogSettingVisible"/>
+    <LocalLoginDialog v-model="localLoginVisible" @success="onLocalLoginSuccess"/>
     <CaptureDialog v-model="captureSettingVisible"/>
   </div>
 </template>

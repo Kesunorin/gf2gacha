@@ -70,6 +70,10 @@ export function MergeEreRecord(arg1, arg2) {
   return window['go']['main']['App']['MergeEreRecord'](arg1, arg2);
 }
 
+export function ReadLocalLoginInfo() {
+  return window['go']['main']['App']['ReadLocalLoginInfo']();
+}
+
 export function SaveSettingExchangeList(arg1) {
   return window['go']['main']['App']['SaveSettingExchangeList'](arg1);
 }

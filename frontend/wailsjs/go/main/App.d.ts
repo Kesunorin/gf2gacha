@@ -36,6 +36,8 @@ export function ImportRawJson(arg1:string,arg2:boolean):Promise<string>;
 
 export function MergeEreRecord(arg1:string,arg2:string):Promise<string>;
 
+export function ReadLocalLoginInfo():Promise<model.LogInfo>;
+
 export function SaveSettingExchangeList(arg1:Array<number>):Promise<void>;
 
 export function SaveSettingFont(arg1:string):Promise<void>;

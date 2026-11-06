@@ -11,7 +11,7 @@ import (
 )
 
 func UpdatePoolInfo(isFull bool) (messageList []string, err error) {
-	logInfo, err := util.GetLogInfo()
+	logInfo, err := GetLoginInfo()
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
